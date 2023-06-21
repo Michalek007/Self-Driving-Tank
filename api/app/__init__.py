@@ -14,4 +14,5 @@ ma = Marshmallow(app)
 
 from app.views import *
 from app.tank_control_views import *
+from app.data_views import *
 from database.cli_commands import *
