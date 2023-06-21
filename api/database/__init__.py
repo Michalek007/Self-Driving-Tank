@@ -7,3 +7,4 @@ db.init_app(app)
 from database.user import User, user_schema, users_schema
 from database.note import Note, note_schema, notes_schema
 from database.performance import Performance, performance_schema, performances_schema
+from database.acceleration import Acceleration, acceleration_schema, acceleration_schema_many
