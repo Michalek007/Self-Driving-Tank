@@ -1,7 +1,4 @@
-import flask_jwt_extended
 from flask import render_template, url_for, request, redirect, jsonify
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from flask_jwt_extended import set_access_cookies, unset_jwt_cookies
 from datetime import datetime
 from app import app, bcrypt
 from database import *
@@ -42,3 +39,40 @@ def delete_acc(id: int = None):
         return jsonify(message='You deleted acc with id: ' + str(id)), 202
     else:
         return jsonify(message='There is no acc with that id'), 404
+
+
+@app.route('/position/<int:id>/', methods=['GET'])
+@app.route('/position/', methods=['GET'])
+def position(id: int = None):
+    if id is None:
+        position_list = Position.query.all()
+        return jsonify(position=position_schema_many.dump(position_list))
+    position = Position.query.filter_by(id=id).first()
+    if position:
+        return jsonify(position=position_schema.dump(position))
+    else:
+        return jsonify(message='There is no position with that id'), 404
+
+
+@app.route('/add_position/', methods=['POST'])
+def add_position():
+    position = Position(date=datetime.now(),
+                        x=request.args.get('x'),
+                        y=request.args.get('y'),
+                        z=request.args.get('z'))
+    db.session.add(position)
+    db.session.commit()
+    return jsonify(message='You added acc.'), 201
+
+
+@app.route('/delete_position/<int:id>/', methods=['DELETE'])
+def delete_position(id: int = None):
+    if id is None:
+        return jsonify(message='There is no position with that id'), 404
+    position = Position.query.filter_by(id=id).first()
+    if position:
+        db.session.delete(position)
+        db.session.commit()
+        return jsonify(message='You deleted position with id: ' + str(id)), 202
+    else:
+        return jsonify(message='There is no position with that id'), 404
