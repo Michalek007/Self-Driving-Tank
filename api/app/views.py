@@ -161,7 +161,7 @@ def search_note():
 
 @app.route('/acc/<int:id>/', methods=['GET'])
 @app.route('/acc/', methods=['GET'])
-def notes(id: int = None):
+def acc(id: int = None):
     if id is None:
         acc_list = Acceleration.query.all()
         return jsonify(acc=acceleration_schema_many.dump(acc_list))
@@ -173,7 +173,7 @@ def notes(id: int = None):
 
 
 @app.route('/add_acc/', methods=['POST'])
-def add_note():
+def add_acc():
     acc = Acceleration(date=datetime.now(),
                        x_axis=request.args.get('x_axis'),
                        y_axis=request.args.get('y_axis'),
