@@ -15,7 +15,8 @@ class State(enum.Enum):
     backward_right = 8
 
 
-STATE = State.stop
+# STATE = State.stop
+STATE = 0
 
 
 @app.route('/get_action/', methods=['GET'])
@@ -25,7 +26,9 @@ def get_action():
 
 @app.route('/update_state/<int:value>/', methods=['UPDATE'])
 def update_state(value: int):
-    STATE = State(value)
+    # STATE = State(value)
+    global STATE
+    STATE = value
     return jsonify(message='You updated state!'), 202
 
 
