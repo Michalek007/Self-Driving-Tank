@@ -4,11 +4,15 @@ from app import app
 
 
 class State(enum.Enum):
-    left = 0
-    right = 1
-    forward = 2
-    backward = 3
-    stop = 4
+    stop = 0
+    forward = 1
+    backward = 2
+    right = 3
+    left = 4
+    forward_left = 5
+    forward_right = 6
+    backward_left = 7
+    backward_right = 8
 
 
 STATE = State.stop
@@ -23,3 +27,13 @@ def get_action():
 def update_state(value: int):
     STATE = State(value)
     return jsonify(message='You updated state!'), 202
+
+
+@app.route('/tank_control/', methods=['GET'])
+def tank_control():
+    return render_template('tank_control.html')
+
+
+@app.route('/gpt/', methods=['GET'])
+def gpt():
+    return render_template('chat_gpt.html')

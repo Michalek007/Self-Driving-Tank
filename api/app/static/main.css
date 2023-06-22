@@ -81,6 +81,43 @@ button{
     color: #FFFFFF;
 }
 
+.h1 {
+    font-family: 'Inter', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
+
+    color: #FFFFFF;
+
+}
+.button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      text-align: center;
+      text-decoration: none;
+      background-color: #302B2B;
+      color: #fff;
+      border: 1px solid #000000;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .button:hover {
+      background-color: #383838;
+    }
+
+      .button.active {
+      background-color: #202020;
+    }
+
+    .button-container {
+      text-align: center;
+    }
+
+
 textarea{
     box-sizing: border-box;
 
