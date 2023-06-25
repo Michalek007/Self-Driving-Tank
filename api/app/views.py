@@ -157,9 +157,3 @@ def delete_params(id):
 @app.route('/search_note/', methods=['GET'])
 def search_note():
     return render_template('notes.html')
-
-
-@app.route('/graphs/', methods=['GET'])
-def graphs():
-    return render_template('graphs.html')
-

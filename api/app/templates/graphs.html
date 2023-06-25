@@ -1,14 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title> Self-Driving-Tank </title>
+    <title>Self-Driving-Tank</title>
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
  <div class="topnav">
         <a href="{{url_for('tank_control')}}"> TANK CONTROL </a>
         <a href="{{url_for('graphs')}}"> GRAPHS </a>
     </div>
+    <div id="graph"></div>
+    <script>
+        // Function to fetch data from the server
+        function fetchData() {
+            // Make an AJAX request to the server
+            $.ajax({
+                url: "get_data/",  // Replace with the actual URL to fetch the data
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    // Process the received data and update the graph
+                    updateGraph(data);
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+
+        // Function to update the graph with new data
+        function updateGraph(data) {
+            // Extract x and y values from the received data
+            {#var x = data["value"];#}
+            {#var y = data["value"];#}
+            var x = [data["value"]];
+            var y = [data["value"]];
+            // Create a plotly trace
+            var trace = {
+                x: x,
+                y: y,
+                mode: 'lines+markers',
+                type: 'scatter'
+            };
+
+            // Define layout options
+            var layout = {
+                title: 'Dynamic Graph',
+                xaxis: {
+                    title: 'Time'
+                },
+                yaxis: {
+                    title: 'Value'
+                }
+            };
+            console.log(x);
+            // Create or update the graph
+            if (document.getElementById('graph').data) {
+                Plotly.extendTraces('graph', { x: [x], y: [y] }, [0]);
+            } else {
+                console.log(y);
+                Plotly.newPlot('graph', [trace], layout);
+            }
+        }
+        // Fetch data initially and then update every 1 seconds
+        fetchData();
+        setInterval(fetchData, 1000);
+    </script>
 </body>
 </html>

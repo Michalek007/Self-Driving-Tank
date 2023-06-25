@@ -76,3 +76,19 @@ def delete_position(id: int = None):
         return jsonify(message='You deleted position with id: ' + str(id)), 202
     else:
         return jsonify(message='There is no position with that id'), 404
+
+
+@app.route('/graphs/', methods=['GET'])
+def graphs():
+    return render_template('graphs.html')
+
+
+TIME = 1
+@app.route('/graphs/get_data/', methods=['GET'])
+def get_data():
+    global TIME
+    TIME += 1
+    acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
+    print(acc.x_axis)
+    print(acc.date)
+    return jsonify(value=TIME)
