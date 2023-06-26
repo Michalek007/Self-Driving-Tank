@@ -3,27 +3,78 @@
 <head>
     <title>Self-Driving-Tank</title>
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+      <style>
+        .graph-row {
+            display: flex;
+        }
+
+        .graph-container {
+            width: 33.33%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+    </style>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
- <div class="topnav">
+
+    <div class="topnav">
         <a href="{{url_for('tank_control')}}"> TANK CONTROL </a>
         <a href="{{url_for('graphs')}}"> GRAPHS </a>
     </div>
-    <div id="graph"></div>
+
+   <div class="graph-row">
+        <div class="graph-container">
+            <div id="x_acc"></div>
+        </div>
+        <div class="graph-container">
+            <div id="y_acc"></div>
+        </div>
+        <div class="graph-container">
+            <div id="z_acc"></div>
+        </div>
+    </div>
+
+    <div class="graph-row">
+        <div class="graph-container">
+            <div id="x"></div>
+        </div>
+        <div class="graph-container">
+            <div id="y"></div>
+        </div>
+        <div class="graph-container">
+            <div id="z"></div>
+        </div>
+    </div>
     <script>
         // Function to fetch data from the server
-        function fetchData() {
+        function fetchAcc() {
             // Make an AJAX request to the server
             $.ajax({
-                url: "get_data/",  // Replace with the actual URL to fetch the data
+                url: "http://127.0.0.1:5000/acc/",  // Replace with the actual URL to fetch the data
                 method: "GET",
                 dataType: "json",
                 success: function(data) {
                     console.log(data);
                     // Process the received data and update the graph
-                    updateGraph(data);
+                    updateAcc(data["acc"]);
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+          function fetchPos() {
+            // Make an AJAX request to the server
+            $.ajax({
+                url: "http://127.0.0.1:5000/position/",  // Replace with the actual URL to fetch the data
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    // Process the received data and update the graph
+                    updatePos(data["position"]);
                 },
                 error: function(xhr, status, error) {
                     console.log("Error:", error);
@@ -32,14 +83,95 @@
         }
 
         // Function to update the graph with new data
-        function updateGraph(data) {
-            // Extract x and y values from the received data
-            {#var x = data["value"];#}
-            {#var y = data["value"];#}
-            var x = [data["value"]];
-            var y = [data["value"]];
+        function updateAcc(data) {
+            var time = [];
+            var x = [];
+            var y = [];
+            var z = [];
+            for (let i=0;i<data.length;i++){
+                time.push(data[i]["date"]);
+                x.push(data[i]["x_axis"]);
+                y.push(data[i]["y_axis"]);
+                z.push(data[i]["z_axis"]);
+            }
             // Create a plotly trace
-            var trace = {
+            var trace_x = {
+                x: time,
+                y: x,
+                mode: 'lines+markers',
+                type: 'scatter'
+            };
+            var trace_y = {
+                x: time,
+                y: y,
+                mode: 'lines+markers',
+                type: 'scatter'
+            };
+            var trace_z = {
+                x: time,
+                y: z,
+                mode: 'lines+markers',
+                type: 'scatter'
+            };
+
+            // Define layout options
+            var layout_x = {
+                title: 'X axis acceleration vs time',
+                xaxis: {
+                    title: 'Time'
+                },
+                yaxis: {
+                    title: 'Acceleration [m/s^2]'
+                }
+            };
+              var layout_y = {
+                title: 'Y axis acceleration vs time',
+                xaxis: {
+                    title: 'Time'
+                },
+                yaxis: {
+                    title: 'Acceleration [m/s^2]'
+                }
+            };
+                var layout_z = {
+                title: 'Z axis acceleration vs time',
+                xaxis: {
+                    title: 'Time'
+                },
+                yaxis: {
+                    title: 'Acceleration [m/s^2]'
+                }
+            };
+            // Create the graph
+            Plotly.newPlot("x_acc", [trace_x], layout_x);
+            Plotly.newPlot("y_acc", [trace_y], layout_y);
+            Plotly.newPlot("z_acc", [trace_z], layout_z);
+        }
+         function updatePos(data) {
+            var time = [];
+            var x = [];
+            var y = [];
+            var z = [];
+            for (let i=0;i<data.length;i++){
+             time.push(data[i]["date"]);
+             x.push(data[i]["x"]);
+             y.push(data[i]["y"]);
+             z.push(data[i]["z"]);
+            }
+            // Create a plotly trace
+            var trace_x = {
+                x: time,
+                y: x,
+                mode: 'lines+markers',
+                type: 'scatter'
+            };
+            var trace_y = {
+                x: time,
+                y: y,
+                mode: 'lines+markers',
+                type: 'scatter'
+            };
+            var trace_z = {
                 x: x,
                 y: y,
                 mode: 'lines+markers',
@@ -47,27 +179,41 @@
             };
 
             // Define layout options
-            var layout = {
-                title: 'Dynamic Graph',
+            var layout_x = {
+                title: 'x(t)',
                 xaxis: {
                     title: 'Time'
                 },
                 yaxis: {
-                    title: 'Value'
+                    title: 'x[m]'
                 }
             };
-            console.log(x);
-            // Create or update the graph
-            if (document.getElementById('graph').data) {
-                Plotly.extendTraces('graph', { x: [x], y: [y] }, [0]);
-            } else {
-                console.log(y);
-                Plotly.newPlot('graph', [trace], layout);
-            }
+              var layout_y = {
+                title: 'y(t)',
+                xaxis: {
+                    title: 'Time'
+                },
+                yaxis: {
+                    title: 'y[m]'
+                }
+            };
+                var layout_z = {
+                title: 'y(x)',
+                xaxis: {
+                    title: 'x[m]'
+                },
+                yaxis: {
+                    title: 'y[m]'
+                }
+            };
+            // Create the graph
+            Plotly.newPlot("x", [trace_x], layout_x);
+            Plotly.newPlot("y", [trace_y], layout_y);
+            Plotly.newPlot("z", [trace_z], layout_z);
         }
         // Fetch data initially and then update every 1 seconds
-        fetchData();
-        setInterval(fetchData, 1000);
+        fetchPos();
+        fetchAcc();
     </script>
 </body>
 </html>

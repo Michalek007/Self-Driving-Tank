@@ -3,35 +3,68 @@
 <head>
   <title>Self-Driving-Tank</title>
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{#    <script src="{{url_for('static', filename='tank_control.js')}}"></script>#}
+    <style>
+        {#.row {#}
+        {#    display: inline;#}
+        {#    float: left;#}
+
+        .graph-container {
+            width: 33.33%;
+            float: left;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+  </style>
+
 </head>
 <body>
- <div class="topnav">
+
+    <div class="topnav">
         <a href="{{url_for('tank_control')}}"> TANK CONTROL </a>
         <a href="{{url_for('graphs')}}"> GRAPHS </a>
     </div>
-  <h1 class="white_text">Tank Control</h1>
 
-  <div class="button-container">
-    <button class="button" id="softTurnForwardLeftBtn">Soft Turn Forward Left</button>
+    <h1 class="white_text"> Controls </h1>
+
+    <div class="button-container">
+    <button class="button" id="softTurnForwardLeftBtn">Forward Left</button>
     <button class="button" id="forwardBtn">Forward</button>
-    <button class="button" id="softTurnForwardRightBtn">Soft Turn Forward Right</button>
-  </div>
+    <button class="button" id="softTurnForwardRightBtn">Forward Right</button>
+    </div>
 
-  <div class="button-container">
+    <div class="button-container">
     <button class="button" id="leftBtn">Left</button>
     <button class="button" id="stopBtn">Stop</button>
     <button class="button" id="rightBtn">Right</button>
-  </div>
+    </div>
 
-  <div class="button-container">
-    <button class="button" id="softTurnBackwardLeftBtn">Soft Turn Backward Left</button>
+    <div class="button-container">
+    <button class="button" id="softTurnBackwardLeftBtn">Backward Left</button>
     <button class="button" id="backwardBtn">Backward</button>
-    <button class="button" id="softTurnBackwardRightBtn">Soft Turn Backward Right</button>
-  </div>
+    <button class="button" id="softTurnBackwardRightBtn">Backward Right</button>
+    </div>
 
-  <!-- Add JavaScript code to handle button presses, releases, and mouse leave events -->
-  <script>
-    // Example JavaScript code for controlling the vehicle
+
+    <div class="white_text" id="velocity"> 0 </div>
+
+    <div class="graph-container">
+        <div id="acc"></div>
+    </div>
+        <div class="graph-container">
+        <div id="vel"></div>
+    </div>
+    <div class="graph-container">
+        <div id="pos"></div>
+    </div>
+    <script>
+        function display_velocity(value){
+    document.getElementById("velocity").innerText = value;
+}
+
+// code for controlling the vehicle
     var forwardBtn = document.getElementById("forwardBtn");
     var backwardBtn = document.getElementById("backwardBtn");
     var leftBtn = document.getElementById("leftBtn");
@@ -217,6 +250,174 @@
       console.log("Stopping");
       this.classList.remove("active");
     });
-  </script>
+    </script>
+    <script>
+        // Function to fetch data from the server
+        function fetchVelocity(graphId) {
+            // Make an AJAX request to the server
+            $.ajax({
+                url: "http://127.0.0.1:5000/get_velocity/",  // Replace with the actual URL to fetch the data
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    // Process the received data and update the graph
+                    updateGraph(graphId, data);
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+        function fetchPosition(graphId) {
+            // Make an AJAX request to the server
+            $.ajax({
+                url: "http://127.0.0.1:5000/get_position/",  // Replace with the actual URL to fetch the data
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    // Process the received data and update the graph
+                    updateGraph(graphId, data);
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+        function fetchAcc(graphId) {
+            // Make an AJAX request to the server
+            $.ajax({
+                url: "http://127.0.0.1:5000/get_acc/",  // Replace with the actual URL to fetch the data
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    // Process the received data and update the graph
+                    updateGraph(graphId, data);
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+
+        // Function to update the graph with new data
+        function updateGraph(graphId, data) {
+            if (graphId === "acc"){
+                // Extract x and y values from the received data
+                var x = [data["time"]];
+                var y = [data["value"]];
+                // Create a plotly trace
+                var trace = {
+                    x: x,
+                    y: y,
+                    mode: 'lines+markers',
+                    type: 'scatter'
+                };
+
+                // Define layout options
+                var layout = {
+                    title: 'Acceleration vs time',
+                    xaxis: {
+                        title: 'Time'
+                    },
+                    yaxis: {
+                        title: 'Acceleraion [m/s^2]'
+                    }
+                };
+            }
+            if (graphId === "pos"){
+                // Extract x and y values from the received data
+                var x = [data["x"]];
+                var y = [data["y"]];
+                // Create a plotly trace
+                var trace = {
+                    x: x,
+                    y: y,
+                    mode: 'lines+markers',
+                    type: 'scatter'
+                };
+
+                // Define layout options
+                var layout = {
+                    title: 'Position y(x)',
+                    xaxis: {
+                        title: 'x[m]'
+                    },
+                    yaxis: {
+                        title: 'y[m]'
+                    }
+                };
+
+            }
+            if (graphId === "vel"){
+                // Extract x and y values from the received data
+                var x = [data["time"]];
+                var y = [data["value"]];
+                // Create a plotly trace
+                var trace = {
+                    x: x,
+                    y: y,
+                    mode: 'lines+markers',
+                    type: 'scatter'
+                };
+
+                // Define layout options
+                 var layout = {
+                        title: 'Velocity vs time',
+                        xaxis: {
+                            title: 'Time'
+                        },
+                        yaxis: {
+                            title: 'Velocity [m/s]'
+                        }
+                    };
+                 display_velocity(y);
+            }
+
+            // Create or update the graph
+            if (document.getElementById(graphId).data) {
+                Plotly.extendTraces(graphId, { x: [x], y: [y] }, [0]);
+            } else {
+                console.log(y);
+                Plotly.newPlot(graphId, [trace], layout);
+            }
+        }
+        function fetchData() {
+            // Make an AJAX request to the server
+            $.ajax({
+                url: "http://127.0.0.1:5000/get_state/",  // Replace with the actual URL to fetch the data
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    // Process the received data and update the graph
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+        // Fetch data initially and then update every 1 seconds
+        fetchAcc("acc");
+        fetchPosition("pos");
+        fetchVelocity("vel");
+
+        setInterval(function() {
+            fetchAcc("acc");
+        }, 1000);
+        setInterval(function() {
+            fetchPosition("pos");
+        }, 1000);
+        setInterval(function() {
+            fetchVelocity("vel");
+        }, 1000);
+
+        setInterval(function() {
+            fetchData();
+        }, 100);
+    </script>
+
 </body>
 </html>

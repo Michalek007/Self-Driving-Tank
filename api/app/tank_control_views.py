@@ -1,5 +1,6 @@
 from flask import render_template, url_for, request, redirect, jsonify
 import enum
+import requests
 from app import app
 
 
@@ -37,6 +38,38 @@ def tank_control():
     return render_template('tank_control.html')
 
 
-@app.route('/gpt/', methods=['GET'])
-def gpt():
-    return render_template('chat_gpt.html')
+@app.route('/get_state/', methods=['GET'])
+def get_state():
+    # for simulation purposes
+    global STATE
+    X = 0
+    Y = 0
+    Z = 9.81
+    with app.app_context():
+        if STATE == 1:
+            Y = 0.2
+        elif STATE == 2:
+            Y = -0.2
+        elif STATE == 3:
+            X = 0.2
+        elif STATE == 4:
+            X = -0.2
+        elif STATE == 5:
+            Y = 0.2
+            X = -0.2
+        elif STATE == 6:
+            Y = 0.2
+            X = 0.2
+        elif STATE == 7:
+            Y = -0.2
+            X = -0.2
+        elif STATE == 8:
+            Y = -0.2
+            X = 0.2
+        else:
+            pass
+        payload = {'x_axis': X,
+                   'y_axis': Y,
+                   "z_axis": Z}
+        response = requests.post("http://127.0.0.1:5000/add_acc/", params=payload)
+    return jsonify(message="Success!")
