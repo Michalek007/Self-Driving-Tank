@@ -16,7 +16,7 @@ def acc(id: int = None):
         return jsonify(acc=acceleration_schema_many.dump(acc_list))
     acc = Acceleration.query.filter_by(id=id).first()
     if acc:
-        return jsonify(acc=acceleration_schema.dump(note))
+        return jsonify(acc=acceleration_schema.dump(acc))
     else:
         return jsonify(message='There is no acc with that id'), 404
 
@@ -29,26 +29,34 @@ def add_acc():
                        x_axis=request.args.get('x_axis'),
                        y_axis=request.args.get('y_axis'),
                        z_axis=request.args.get('z_axis'))
-    # acc = Acceleration(date=0.1,
-    #                    x_axis=request.args.get('x_axis'),
-    #                    y_axis=request.args.get('y_axis'),
-    #                    z_axis=request.args.get('z_axis'))
-    # acc_last_one = Acceleration.query.order_by(Acceleration.id.desc()).first()
     pos_last_one = Position.query.order_by(Position.id.desc()).first()
+    vel = Velocity.query.order_by(Velocity.id.desc()).first()
+
     t = 0.1
-    x = 0.5 * float(acc.x_axis) * t * t + pos_last_one.x
-    y = 0.5 * float(acc.y_axis) * t * t + pos_last_one.y
-    z = 0.5 * float(acc.z_axis) * t * t + pos_last_one.z
+    x = 0.5 * float(acc.x_axis) * t * t + pos_last_one.x + t*float(vel.x_axis)
+    y = 0.5 * float(acc.y_axis) * t * t + pos_last_one.y + t*float(vel.y_axis)
+    # z = 0.5 * float(acc.z_axis) * t * t + pos_last_one.z + t*float(vel.z_axis)
+
     position = Position(date=TIME,
                         x=x,
                         y=y,
-                        z=z)
+                        z=0)
+
+    vel_x = float(acc.x_axis) * t + vel.x_axis
+    vel_y = float(acc.y_axis) * t + vel.y_axis
+    # vel_z = float(acc.z_axis) * t + vel.z_axis
+
+    velocity = Velocity(date=TIME,
+                        x_axis=vel_x,
+                        y_axis=vel_y,
+                        z_axis=0)
+
+    db.session.add(velocity)
     db.session.add(position)
     db.session.add(acc)
     db.session.commit()
-
-    calculated_acc = (acc.x_axis ** 2 + acc.y_axis ** 2) ** 0.5
-    VELOCITY = VELOCITY + calculated_acc * t
+    # calculated_acc = (acc.x_axis ** 2 + acc.y_axis ** 2) ** 0.5
+    # VELOCITY = VELOCITY + calculated_acc * t
     return jsonify(message='You added acc.'), 201
 
 
@@ -102,6 +110,19 @@ def delete_position(id: int = None):
         return jsonify(message='There is no position with that id'), 404
 
 
+@app.route('/vel/<int:id>/', methods=['GET'])
+@app.route('/vel/', methods=['GET'])
+def vel(id: int = None):
+    if id is None:
+        vel_list = Velocity.query.all()
+        return jsonify(vel=velocity_schema_many.dump(vel_list))
+    vel = Velocity.query.filter_by(id=id).first()
+    if vel:
+        return jsonify(vel=velocity_schema.dump(vel))
+    else:
+        return jsonify(message='There is no vel with that id'), 404
+
+
 @app.route('/graphs/', methods=['GET'])
 def graphs():
     return render_template('graphs.html')
@@ -110,8 +131,6 @@ def graphs():
 @app.route('/graphs/get_data/', methods=['GET'])
 def get_data():
     acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
-    print(acc.x_axis)
-    print(acc.date)
     return jsonify(value=acc.x_axis)
 
 
@@ -124,12 +143,14 @@ def get_acc():
 
 @app.route('/get_velocity/', methods=['GET'])
 def get_velocity():
-    global VELOCITY, TIME
-    return jsonify(value=VELOCITY, time=TIME)
+    # global VELOCITY, TIME
+    # return jsonify(value=VELOCITY, time=TIME)
+    vel = Velocity.query.order_by(Velocity.id.desc()).first()
+    calculated_vel = (vel.x_axis ** 2 + vel.y_axis ** 2) ** 0.5
+    return jsonify(value=calculated_vel, time=vel.date)
 
 
 @app.route('/get_position/', methods=['GET'])
 def get_position():
     pos = Position.query.order_by(Position.id.desc()).first()
     return jsonify(x=pos.x, y=pos.y)
-

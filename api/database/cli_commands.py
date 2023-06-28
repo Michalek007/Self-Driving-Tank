@@ -18,13 +18,15 @@ def db_drop():
 def db_seed():
     user = User(username='admin', pw_hash=bcrypt.generate_password_hash('admin'))
 
-    acc = Acceleration(date=datetime.now(), x_axis=0, y_axis=0, z_axis=0)
-
-    pos = Position(date=datetime.now(), x=0, y=0, z=0)
+    time = datetime.now()
+    acc = Acceleration(date=time, x_axis=0, y_axis=0, z_axis=0)
+    pos = Position(date=time, x=0, y=0, z=0)
+    vel = Velocity(date=time, x_axis=0, y_axis=0, z_axis=0)
 
     db.session.add(user)
     db.session.add(acc)
     db.session.add(pos)
+    db.session.add(vel)
 
     db.session.commit()
     print('Database seeded!')

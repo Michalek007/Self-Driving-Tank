@@ -2,6 +2,7 @@ from flask import render_template, url_for, request, redirect, jsonify
 import enum
 import requests
 from app import app
+from database import *
 
 
 class State(enum.Enum):
@@ -45,31 +46,47 @@ def get_state():
     X = 0
     Y = 0
     Z = 9.81
+    acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
+    value = 0.01
     with app.app_context():
         if STATE == 1:
-            Y = 0.2
+            Y = value
         elif STATE == 2:
-            Y = -0.2
+            Y = -value
         elif STATE == 3:
-            X = 0.2
+            X = value
         elif STATE == 4:
-            X = -0.2
+            X = -value
         elif STATE == 5:
-            Y = 0.2
-            X = -0.2
+            Y = value
+            X = -value
         elif STATE == 6:
-            Y = 0.2
-            X = 0.2
+            Y = value
+            X = value
         elif STATE == 7:
-            Y = -0.2
-            X = -0.2
+            Y = -value
+            X = -value
         elif STATE == 8:
-            Y = -0.2
-            X = 0.2
+            Y = -value
+            X = value
         else:
             pass
-        payload = {'x_axis': X,
-                   'y_axis': Y,
-                   "z_axis": Z}
-        response = requests.post("http://127.0.0.1:5000/add_acc/", params=payload)
+        if STATE != 0:
+            payload = {'x_axis': acc.x_axis + X,
+                       'y_axis': acc.y_axis + Y,
+                       "z_axis": 9.81}
+            response = requests.post("http://127.0.0.1:5000/add_acc/", params=payload)
+        else:
+            payload = {'x_axis': 0,
+                       'y_axis': 0,
+                       "z_axis": 0}
+            response = requests.post("http://127.0.0.1:5000/add_acc/", params=payload)
+            last_acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
+            velocity = Velocity(date=last_acc.date,
+                                x_axis=0,
+                                y_axis=0,
+                                z_axis=9.81)
+            db.session.add(velocity)
+            db.session.commit()
+
     return jsonify(message="Success!")

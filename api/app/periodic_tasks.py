@@ -21,15 +21,15 @@ I = 0
 #     global X, Y, Z, I
 #     # acc = Acceleration(date=str(datetime.now()), x_axis=random.random(),y_axis=random.random(),z_axis=random.random())
 #     with app.app_context():
-#         payload = {'x_axis': round(random.random()-0.2, 2),
-#                    'y_axis': round(random.random()-0.2, 2),
-#                    "z_axis": round(random.random()-0.2, 2)}
-#         response = requests.post("http://127.0.0.1:5000/add_acc/", params=payload)
-#         # if I < 10:
-#         #     X = X + 1
-#         #     I = I + 1
-#         # else:
-#         #     X = X - 1
+#         # payload = {'x_axis': round(random.random(), 2),
+#         #            'y_axis': round(random.random(), 2),
+#         #            "z_axis": round(random.random(), 2)}
+#         # response = requests.post("http://127.0.0.1:5000/add_acc/", params=payload)
+#         if I < 10:
+#             X = X + 1
+#             I = I + 1
+#         else:
+#             X = X - 1
 #         payload = {'x_axis': X,
 #                    'y_axis': Y,
 #                    "z_axis": Z}

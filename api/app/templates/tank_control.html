@@ -256,7 +256,7 @@
         function fetchVelocity(graphId) {
             // Make an AJAX request to the server
             $.ajax({
-                url: "http://127.0.0.1:5000/get_velocity/",  // Replace with the actual URL to fetch the data
+                url: "http://127.0.0.1:5000/get_velocity/",
                 method: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -272,7 +272,7 @@
         function fetchPosition(graphId) {
             // Make an AJAX request to the server
             $.ajax({
-                url: "http://127.0.0.1:5000/get_position/",  // Replace with the actual URL to fetch the data
+                url: "http://127.0.0.1:5000/get_position/",
                 method: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -288,7 +288,7 @@
         function fetchAcc(graphId) {
             // Make an AJAX request to the server
             $.ajax({
-                url: "http://127.0.0.1:5000/get_acc/",  // Replace with the actual URL to fetch the data
+                url: "http://127.0.0.1:5000/get_acc/",
                 method: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -387,7 +387,7 @@
         function fetchData() {
             // Make an AJAX request to the server
             $.ajax({
-                url: "http://127.0.0.1:5000/get_state/",  // Replace with the actual URL to fetch the data
+                url: "http://127.0.0.1:5000/get_state/",
                 method: "GET",
                 dataType: "json",
                 success: function(data) {
@@ -406,13 +406,13 @@
 
         setInterval(function() {
             fetchAcc("acc");
-        }, 1000);
+        }, 500);
         setInterval(function() {
             fetchPosition("pos");
-        }, 1000);
+        }, 500);
         setInterval(function() {
             fetchVelocity("vel");
-        }, 1000);
+        }, 500);
 
         setInterval(function() {
             fetchData();
