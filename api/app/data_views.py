@@ -25,10 +25,13 @@ def acc(id: int = None):
 def add_acc():
     global VELOCITY, TIME
     TIME = datetime.now()
+    acc_x = float(request.args.get('x_axis'))/100
+    acc_y = float(request.args.get('y_axis'))/100
+    acc_z = float(request.args.get('z_axis'))/100
     acc = Acceleration(date=TIME,
-                       x_axis=request.args.get('x_axis'),
-                       y_axis=request.args.get('y_axis'),
-                       z_axis=request.args.get('z_axis'))
+                       x_axis=acc_x,
+                       y_axis=acc_y,
+                       z_axis=acc_z)
     pos_last_one = Position.query.order_by(Position.id.desc()).first()
     vel = Velocity.query.order_by(Velocity.id.desc()).first()
 
@@ -42,8 +45,16 @@ def add_acc():
                         y=y,
                         z=0)
 
-    vel_x = float(acc.x_axis) * t + vel.x_axis
-    vel_y = float(acc.y_axis) * t + vel.y_axis
+    # last_acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
+    if -1 <= acc.x_axis <= 1:
+        vel_x = 0
+    else:
+        vel_x = float(acc.x_axis) * t + vel.x_axis
+    if -1 <= acc.y_axis <= 1:
+        vel_y = 0
+    else:
+        vel_y = float(acc.y_axis) * t + vel.y_axis
+
     # vel_z = float(acc.z_axis) * t + vel.z_axis
 
     velocity = Velocity(date=TIME,
@@ -55,8 +66,6 @@ def add_acc():
     db.session.add(position)
     db.session.add(acc)
     db.session.commit()
-    # calculated_acc = (acc.x_axis ** 2 + acc.y_axis ** 2) ** 0.5
-    # VELOCITY = VELOCITY + calculated_acc * t
     return jsonify(message='You added acc.'), 201
 
 
@@ -94,7 +103,7 @@ def add_position():
                         z=request.args.get('z'))
     db.session.add(position)
     db.session.commit()
-    return jsonify(message='You added acc.'), 201
+    return jsonify(message='You added position.'), 201
 
 
 @app.route('/delete_position/<int:id>/', methods=['DELETE'])
@@ -143,8 +152,6 @@ def get_acc():
 
 @app.route('/get_velocity/', methods=['GET'])
 def get_velocity():
-    # global VELOCITY, TIME
-    # return jsonify(value=VELOCITY, time=TIME)
     vel = Velocity.query.order_by(Velocity.id.desc()).first()
     calculated_vel = (vel.x_axis ** 2 + vel.y_axis ** 2) ** 0.5
     return jsonify(value=calculated_vel, time=vel.date)

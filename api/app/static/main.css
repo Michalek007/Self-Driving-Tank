@@ -61,14 +61,6 @@ p{
     color: #FFFFFF;
 }
 
-.text{
-    font-family: 'Inter', serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 39px;
-}
-
 .black_text{
     font-family: 'Inter', serif;
     font-style: normal;
@@ -123,35 +115,3 @@ button{
 
     color: #FFFFFF;
 }
-
-.h1 {
-    font-family: 'Inter', serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 39px;
-
-    color: #FFFFFF;
-
-}
-
-
-
-textarea{
-    box-sizing: border-box;
-
-    width: 316px;
-    height: 72px;
-
-    background: #302B2B;
-    border: 1px solid #000000;
-
-    font-family: 'Inter', serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 39px;
-
-    color: #FFFFFF;
-}
-

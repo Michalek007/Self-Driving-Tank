@@ -333,7 +333,6 @@ function fetchData() {
         dataType: "json",
         success: function(data) {
             console.log(data);
-            // Process the received data and update the graph
         },
         error: function(xhr, status, error) {
             console.log("Error:", error);
