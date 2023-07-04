@@ -25,7 +25,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "motor.h"
+#include "tank.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
