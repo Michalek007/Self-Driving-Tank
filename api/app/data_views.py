@@ -28,6 +28,13 @@ def add_acc():
     acc_x = float(request.args.get('x_axis'))/100
     acc_y = float(request.args.get('y_axis'))/100
     acc_z = float(request.args.get('z_axis'))/100
+    if -20 > acc_x or acc_x > 20 or -1.5 < acc_x < 1.5:
+        acc_x = 0
+    if -20 > acc_y or acc_y > 20 or -1.5 < acc_y < 1.5:
+        acc_y = 0
+    if -20 > acc_z or acc_z > 20 or -1.5 < acc_z < 1.5:
+        acc_z = 0
+
     acc = Acceleration(date=TIME,
                        x_axis=acc_x,
                        y_axis=acc_y,
@@ -46,11 +53,11 @@ def add_acc():
                         z=0)
 
     # last_acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
-    if -1 <= acc.x_axis <= 1:
+    if -1.5 <= acc.x_axis <= 1.5:
         vel_x = 0
     else:
         vel_x = float(acc.x_axis) * t + vel.x_axis
-    if -1 <= acc.y_axis <= 1:
+    if -1.5 <= acc.y_axis <= 1.5:
         vel_y = 0
     else:
         vel_y = float(acc.y_axis) * t + vel.y_axis
@@ -137,12 +144,6 @@ def graphs():
     return render_template('graphs.html')
 
 
-@app.route('/graphs/get_data/', methods=['GET'])
-def get_data():
-    acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
-    return jsonify(value=acc.x_axis)
-
-
 @app.route('/get_acc/', methods=['GET'])
 def get_acc():
     acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
@@ -161,3 +162,16 @@ def get_velocity():
 def get_position():
     pos = Position.query.order_by(Position.id.desc()).first()
     return jsonify(x=pos.x, y=pos.y)
+
+
+@app.route('/data/', methods=['GET'])
+def data():
+    return render_template("data.html")
+
+
+@app.route('/last_acc/', methods=['GET'])
+def last_acc():
+    acc_list = Acceleration.query.paginate().items
+    print(acc_list)
+    print(Acceleration.query.paginate().total)
+    return jsonify(acc=acceleration_schema_many.dump(acc_list))

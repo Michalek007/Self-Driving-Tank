@@ -16,6 +16,6 @@ class PositionSchema(ma.Schema):
     class Meta:
         fields = ('id', 'date', 'x', 'y', 'z')
 
-
+db.Model
 position_schema = PositionSchema()
 position_schema_many = PositionSchema(many=True)

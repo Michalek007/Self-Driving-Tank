@@ -25,6 +25,7 @@
     <div class="topnav">
         <a href="{{url_for('tank_control')}}"> TANK CONTROL </a>
         <a href="{{url_for('graphs')}}"> GRAPHS </a>
+        <a href="{{url_for('data')}}"> DATA </a>
     </div>
 
     <h1 class="white_text"> Controls </h1>
@@ -68,18 +69,17 @@
 
         setInterval(function() {
             fetchAcc("acc");
-        }, 100);
+        }, 500);
         setInterval(function() {
             fetchPosition("pos");
-        }, 100);
+        }, 500);
         setInterval(function() {
             fetchVelocity("vel");
-        }, 100);
+        }, 500);
 
         // simulation purposes
-        setInterval(function() {
-            fetchData();
-        }, 100);
+        {#setInterval(function() {#}
+        {#    fetchData(); }, 100);#}
     </script>
 
 </body>

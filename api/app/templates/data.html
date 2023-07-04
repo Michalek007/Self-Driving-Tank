@@ -1,28 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block head %}
     <meta charset="UTF-8">
-    <title> Self-Driving-Tank </title>
+    <title>Self-Driving-Tank</title>
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
-    {% endblock %}
 </head>
 <body>
-
-{% block menu %}
-
     <div class="topnav">
-{#        <a href="{{url_for('register')}}"> REGISTER </a>#}
-{#        <a href="{{url_for('login')}}"> LOGIN </a>#}
         <a href="{{url_for('tank_control')}}"> TANK CONTROL </a>
         <a href="{{url_for('graphs')}}"> GRAPHS </a>
         <a href="{{url_for('data')}}"> DATA </a>
     </div>
 
-{% endblock %}
-
-{% block body %}
-
-{%  endblock %}
 </body>
 </html>
