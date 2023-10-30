@@ -16,4 +16,5 @@ Controls motors and communicates with esp8266 by SPI connection.
 Code for microcontroller ESP8266 (C++). 
 Reads data from MMA8452, communicates with stm32 and sends requests to api.
 
-![image](https://github.com/Michalek007/Self-Driving-Tank/assets/101892382/4f1644d2-b3d3-46f4-8dc9-b0b82799e7ef)
+
+![image](https://github.com/Michalek007/Self-Driving-Tank/assets/101892382/c9fab7b8-7a9c-49ea-a827-c7ebed2c9c93)
