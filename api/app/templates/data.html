@@ -1,16 +1,1 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Self-Driving-Tank</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
-</head>
-<body>
-    <div class="topnav">
-        <a href="{{url_for('tank_control')}}"> TANK CONTROL </a>
-        <a href="{{url_for('graphs')}}"> GRAPHS </a>
-        <a href="{{url_for('data')}}"> DATA </a>
-    </div>
-
-</body>
-</html>
+{% extends "base.html" %}

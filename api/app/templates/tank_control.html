@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Self-Driving-Tank</title>
+{% extends "base.html" %}
+
+{% block head %}
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -18,16 +17,9 @@
             box-sizing: border-box;
         }
   </style>
+{% endblock %}
 
-</head>
-<body>
-
-    <div class="topnav">
-        <a href="{{url_for('tank_control')}}"> TANK CONTROL </a>
-        <a href="{{url_for('graphs')}}"> GRAPHS </a>
-        <a href="{{url_for('data')}}"> DATA </a>
-    </div>
-
+{% block body %}
     <h1 class="white_text"> Controls </h1>
 
     <div class="button-container">
@@ -81,6 +73,4 @@
         {#setInterval(function() {#}
         {#    fetchData(); }, 100);#}
     </script>
-
-</body>
-</html>
+{% endblock %}
