@@ -41,8 +41,9 @@ def add_acc():
                        z_axis=acc_z)
     pos_last_one = Position.query.order_by(Position.id.desc()).first()
     vel = Velocity.query.order_by(Velocity.id.desc()).first()
+    acc_last_one = Acceleration.query.order_by(Acceleration.id.desc()).first()
 
-    t = 0.1
+    t = (TIME - datetime.strptime(acc_last_one.date, '%Y-%m-%d %H:%M:%S.%f')).microseconds * 1000000
     x = 0.5 * float(acc.x_axis) * t * t + pos_last_one.x + t*float(vel.x_axis)
     y = 0.5 * float(acc.y_axis) * t * t + pos_last_one.y + t*float(vel.y_axis)
     # z = 0.5 * float(acc.z_axis) * t * t + pos_last_one.z + t*float(vel.z_axis)
@@ -52,7 +53,6 @@ def add_acc():
                         y=y,
                         z=0)
 
-    # last_acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
     if -1.5 <= acc.x_axis <= 1.5:
         vel_x = 0
     else:
