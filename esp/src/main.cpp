@@ -40,7 +40,8 @@ void setup() {
 }
 
 void loop() {
-unsigned int data[7];
+  unsigned int data[7];
+  int xAccl {0}, yAccl {0}, zAccl {0};
 
   // Request 7 bytes of data
   Wire.requestFrom(addr, 7);
@@ -56,25 +57,25 @@ unsigned int data[7];
     data[4] = Wire.read();
     data[5] = Wire.read();
     data[6] = Wire.read();
-  }
 
-  // Convert the data to 12-bits
-  int xAccl = ((data[1] * 256) + data[2]) / 16;
-  if (xAccl > 2047)
-  {
-    xAccl -= 4096;
-  }
-    
-  int yAccl = ((data[3] * 256) + data[4]) / 16;
-  if (yAccl > 2047)
-  {
-    yAccl -= 4096;
-  }
-    
-  int zAccl = ((data[5] * 256) + data[6]) / 16;
-  if (zAccl > 2047)
-  {
-    zAccl -= 4096;
+    // Convert the data to 12-bits
+    xAccl = ((data[1] * 256) + data[2]) / 16;
+    if (xAccl > 2047)
+    {
+      xAccl -= 4096;
+    }
+      
+    yAccl = ((data[3] * 256) + data[4]) / 16;
+    if (yAccl > 2047)
+    {
+      yAccl -= 4096;
+    }
+      
+    zAccl = ((data[5] * 256) + data[6]) / 16;
+    if (zAccl > 2047)
+    {
+      zAccl -= 4096;
+    }
   }
 
   // Output data to serial monitor
