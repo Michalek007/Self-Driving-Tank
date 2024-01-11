@@ -16,6 +16,14 @@
         <a href="{{url_for('tank_control')}}"> TANK CONTROL </a>
         <a href="{{url_for('graphs')}}"> GRAPHS </a>
         <a href="{{url_for('data')}}"> DATA </a>
+        <div class="dropdown">
+            <button class="drop_btn">TABLES</button>
+            <div class="dropdown-content">
+                <a href="{{url_for('acc_table')}}">ACC</a>
+                <a href="{{url_for('velocity_table')}}">VELOCITY</a>
+                <a href="{{url_for('position_table')}}">POSITION</a>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

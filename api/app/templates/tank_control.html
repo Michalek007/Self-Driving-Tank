@@ -6,21 +6,19 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{url_for('static', filename='tank_control.js')}}"></script>
     <style>
-        {#.row {#}
-        {#    display: inline;#}
-        {#    float: left;#}
-
         .graph-container {
             width: 33.33%;
             float: left;
             padding: 10px;
             box-sizing: border-box;
         }
-  </style>
+    </style>
 {% endblock %}
 
 {% block body %}
-    <h1 class="white_text"> Controls </h1>
+    <div class="white_text">
+        <div class="center"> Controls </div>
+    </div>
 
     <div class="button-container">
     <button class="button" id="softTurnForwardLeftBtn">Forward Left</button>
@@ -40,8 +38,9 @@
     <button class="button" id="softTurnBackwardRightBtn">Backward Right</button>
     </div>
 
-
-    <div class="white_text" id="velocity"> 0 </div>
+    <div class="white_text">
+        <div class="center" id="velocity"> 0 </div>
+    </div>
 
     <div class="graph-container">
         <div id="acc"></div>
