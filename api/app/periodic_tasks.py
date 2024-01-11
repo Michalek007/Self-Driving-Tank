@@ -4,18 +4,19 @@ import sqlalchemy.exc
 from flask_apscheduler import APScheduler
 import psutil
 from datetime import datetime
+
 from app import app
 from database import *
 
 scheduler = APScheduler()
 
 
-X = 0
-Y = 0
-Z = 0
-I = 0
-
-
+# X = 0
+# Y = 0
+# Z = 0
+# I = 0
+#
+#
 # @scheduler.task("cron", id="acc", second="*")
 # def acc():
 #     global X, Y, Z, I

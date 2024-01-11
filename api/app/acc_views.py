@@ -1,5 +1,6 @@
 from flask import render_template, url_for, request, redirect, jsonify
 from datetime import datetime
+
 from app import app, bcrypt
 from database import *
 
@@ -94,11 +95,3 @@ def get_acc():
     acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
     calculated_acc = (acc.x_axis ** 2 + acc.y_axis ** 2) ** 0.5
     return jsonify(value=calculated_acc, time=acc.date)
-
-
-@app.route('/acc_paginate/', methods=['GET'])
-def acc_paginate():
-    acc_list = Acceleration.query.paginate().items
-    print(acc_list)
-    print(Acceleration.query.paginate().total)
-    return jsonify(acc=acceleration_schema_many.dump(acc_list))

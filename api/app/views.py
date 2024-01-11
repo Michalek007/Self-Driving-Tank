@@ -2,12 +2,12 @@ import flask_jwt_extended
 from flask import render_template, url_for, request, redirect, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_jwt_extended import set_access_cookies, unset_jwt_cookies
-from datetime import datetime
+
 from app import app, bcrypt
-from database import *
+from database import User, user_schema, users_schema
 
 
-@app.route("/", methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def base():
     return render_template('base.html')
 
@@ -62,7 +62,7 @@ def logout():
     return resp, 200
 
 
-@app.route("/protected", methods=["GET"])
+@app.route('/protected', methods=["GET"])
 @jwt_required()
 def protected():
     # Access the identity of the current user with get_jwt_identity

@@ -1,17 +1,15 @@
 from flask import render_template, url_for, request, redirect, jsonify
-from datetime import datetime
-from app import app, bcrypt
-from database import *
+from app import app
+
+
+@app.route('/controls/', methods=['GET'])
+def controls():
+    return render_template('controls.html')
 
 
 @app.route('/graphs/', methods=['GET'])
 def graphs():
     return render_template('graphs.html')
-
-
-@app.route('/data/', methods=['GET'])
-def data():
-    return render_template("data.html")
 
 
 @app.route('/acc_table/', methods=['GET'])

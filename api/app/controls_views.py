@@ -1,6 +1,7 @@
 from flask import render_template, url_for, request, redirect, jsonify
 import enum
 import requests
+
 from app import app
 from database import *
 
@@ -34,13 +35,8 @@ def update_state(value: int):
     return jsonify(message='You updated state!'), 202
 
 
-@app.route('/tank_control/', methods=['GET'])
-def tank_control():
-    return render_template('tank_control.html')
-
-
-@app.route('/get_state/', methods=['GET'])
-def get_state():
+@app.route('/get_action_sim/', methods=['GET'])
+def get_action_sim():
     # for simulation purposes
     global STATE
     X = 0

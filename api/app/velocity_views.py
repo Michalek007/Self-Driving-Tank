@@ -4,15 +4,15 @@ from app import app, bcrypt
 from database import *
 
 
-@app.route('/vel/<int:id>/', methods=['GET'])
-@app.route('/vel/', methods=['GET'])
-def vel(id: int = None):
+@app.route('/velocity/<int:id>/', methods=['GET'])
+@app.route('/velocity/', methods=['GET'])
+def velocity(id: int = None):
     if id is None:
         vel_list = Velocity.query.all()
-        return jsonify(vel=velocity_schema_many.dump(vel_list))
+        return jsonify(velocity=velocity_schema_many.dump(vel_list))
     vel = Velocity.query.filter_by(id=id).first()
     if vel:
-        return jsonify(vel=velocity_schema.dump(vel))
+        return jsonify(velocity=velocity_schema.dump(vel))
     else:
         return jsonify(message='There is no vel with that id'), 404
 

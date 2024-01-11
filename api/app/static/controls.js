@@ -328,7 +328,7 @@ function updateGraph(graphId, data) {
 function fetchData() {
     // Make an AJAX request to the server
     $.ajax({
-        url: "http://127.0.0.1:5000/get_state/",
+        url: "http://127.0.0.1:5000/get_action_sim/",
         method: "GET",
         dataType: "json",
         success: function(data) {

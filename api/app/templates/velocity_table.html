@@ -12,10 +12,10 @@
             {% endblock %}
 
             {% block url %}
-                '{{ url_for('vel') }}'
+                '{{ url_for('velocity') }}'
             {% endblock %}
             {% block for_each %}
-                data = data.vel
+                data = data.velocity
                 data.forEach(item => {
                         const row = tableBody.insertRow();
                         const cell1 = row.insertCell(0);
