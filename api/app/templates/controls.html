@@ -54,18 +54,18 @@
     <script>
         init_controls();
         // Fetch data initially and then update every 1 seconds
-        fetchAcc("acc");
-        fetchPosition("pos");
-        fetchVelocity("vel");
+        fetchAcc('acc');
+        fetchPosition('pos');
+        fetchVelocity('vel');
 
         setInterval(function() {
-            fetchAcc("acc");
+            fetchAcc('acc');
         }, 500);
         setInterval(function() {
-            fetchPosition("pos");
+            fetchPosition('pos');
         }, 500);
         setInterval(function() {
-            fetchVelocity("vel");
+            fetchVelocity('vel');
         }, 500);
 
         // simulation purposes

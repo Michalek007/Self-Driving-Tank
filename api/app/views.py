@@ -69,13 +69,13 @@ def protected():
     return jsonify(logged_in=current_user), 200
 
 
-@app.route('/users/<int:id>/', methods=['GET'])
+@app.route('/users/<int:user_id>/', methods=['GET'])
 @app.route('/users/', methods=['GET'])
-def users(id: int = None):
-    if id is None:
+def users(user_id: int = None):
+    if user_id is None:
         users_list = User.query.all()
         return jsonify(users=users_schema.dump(users_list))
-    user = User.query.filter_by(id=id).first()
+    user = User.query.filter_by(id=user_id).first()
     if user:
         return jsonify(user=user_schema.dump(user))
     else:
