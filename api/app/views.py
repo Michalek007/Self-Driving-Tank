@@ -1,10 +1,9 @@
-import flask_jwt_extended
 from flask import render_template, url_for, request, redirect, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_jwt_extended import set_access_cookies, unset_jwt_cookies
 
 from app import app, bcrypt
-from database import User, user_schema, users_schema
+from database import db, User, user_schema, users_schema
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -55,14 +54,14 @@ def login():
         return jsonify(message='There is no account with that username'), 401
 
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout/', methods=['POST'])
 def logout():
     resp = jsonify({'logout': True})
     unset_jwt_cookies(resp)
     return resp, 200
 
 
-@app.route('/protected', methods=["GET"])
+@app.route('/protected/', methods=["GET"])
 @jwt_required()
 def protected():
     # Access the identity of the current user with get_jwt_identity

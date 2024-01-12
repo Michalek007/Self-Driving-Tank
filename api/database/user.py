@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String
-from database import db
+
 from app import ma
+from database import db
 
 
 class User(db.Model):

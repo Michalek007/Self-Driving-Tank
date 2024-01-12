@@ -1,5 +1,6 @@
 from flask import render_template, url_for, request, redirect, jsonify
 from datetime import datetime
+
 from app import app, bcrypt
 from database import *
 
@@ -14,7 +15,7 @@ def velocity(id: int = None):
     if vel:
         return jsonify(velocity=velocity_schema.dump(vel))
     else:
-        return jsonify(message='There is no vel with that id'), 404
+        return jsonify(message='There is no velocity with that id'), 404
 
 
 @app.route('/get_velocity/', methods=['GET'])

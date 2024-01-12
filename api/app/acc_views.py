@@ -74,7 +74,7 @@ def add_acc():
     db.session.add(position)
     db.session.add(acc)
     db.session.commit()
-    return jsonify(message='You added acc.'), 201
+    return jsonify(message='You added acc'), 201
 
 
 @app.route('/delete_acc/<int:id>/', methods=['DELETE'])

@@ -37,6 +37,7 @@ def update_state(value: int):
 
 @app.route('/get_action_sim/', methods=['GET'])
 def get_action_sim():
+    # TODO: to improve
     # for simulation purposes
     global STATE
     X = 0
@@ -70,13 +71,13 @@ def get_action_sim():
         if STATE != 0:
             payload = {'x_axis': acc.x_axis + X,
                        'y_axis': acc.y_axis + Y,
-                       "z_axis": 9.81}
-            response = requests.post("http://127.0.0.1:5000/add_acc/", params=payload)
+                       'z_axis': 9.81}
+            response = requests.post('http://127.0.0.1:5000/add_acc/', params=payload)
         else:
             payload = {'x_axis': 0,
                        'y_axis': 0,
-                       "z_axis": 0}
-            response = requests.post("http://127.0.0.1:5000/add_acc/", params=payload)
+                       'z_axis': 0}
+            response = requests.post('http://127.0.0.1:5000/add_acc/', params=payload)
             last_acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
             velocity = Velocity(date=last_acc.date,
                                 x_axis=0,
@@ -85,4 +86,4 @@ def get_action_sim():
             db.session.add(velocity)
             db.session.commit()
 
-    return jsonify(message="Success!")
+    return jsonify(message='Success!')

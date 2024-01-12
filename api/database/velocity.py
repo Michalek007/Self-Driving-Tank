@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float
+
 from app import ma
 from database import db
 

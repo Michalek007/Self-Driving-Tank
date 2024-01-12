@@ -1,5 +1,6 @@
 from flask import render_template, url_for, request, redirect, jsonify
 from datetime import datetime
+
 from app import app, bcrypt
 from database import *
 
@@ -25,7 +26,7 @@ def add_position():
                         z=request.args.get('z'))
     db.session.add(position)
     db.session.commit()
-    return jsonify(message='You added position.'), 201
+    return jsonify(message='You added position'), 201
 
 
 @app.route('/delete_position/<int:id>/', methods=['DELETE'])

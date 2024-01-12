@@ -2,7 +2,7 @@ from gevent.monkey import patch_all; patch_all()
 from app import app
 from gevent import pywsgi
 
-server_wsgi = pywsgi.WSGIServer(listener=(tuple(app.config['LISTENER'].values())), application=app)
+server_wsgi = pywsgi.WSGIServer(listener=('0.0.0.0', app.config['LISTENER']['port']), application=app)
 
 
 def run(server):
