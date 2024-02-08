@@ -8,6 +8,10 @@ from database import *
 @app.route('/position/<int:pos_id>/', methods=['GET'])
 @app.route('/position/', methods=['GET'])
 def position(pos_id: int = None):
+    """ Returns position with given id or if not specified list of all position objects from database.
+        Input args: /id/.
+        Output keys: position {x, y, z}.
+    """
     if pos_id is None:
         position_list = Position.query.all()
         return jsonify(position=position_schema_many.dump(position_list))
@@ -20,6 +24,10 @@ def position(pos_id: int = None):
 
 @app.route('/add_position/', methods=['POST'])
 def add_position():
+    """ POST method.
+        Adds position to database.
+        Input args: x, y, z.
+    """
     position_obj = Position(date=datetime.now(),
                             x=request.args.get('x'),
                             y=request.args.get('y'),
@@ -31,6 +39,10 @@ def add_position():
 
 @app.route('/delete_position/<int:pos_id>/', methods=['DELETE'])
 def delete_position(pos_id: int = None):
+    """ DELETE method.
+        Delete position with given id.
+        Input args: /id/.
+    """
     if pos_id is None:
         return jsonify(message='There is no position with that id'), 404
     position_obj = Position.query.filter_by(id=pos_id).first()
@@ -44,5 +56,8 @@ def delete_position(pos_id: int = None):
 
 @app.route('/get_position/', methods=['GET'])
 def get_position():
+    """ Returns current position (last saved in database).
+        Output keys: x, y.
+    """
     position_obj = Position.query.order_by(Position.id.desc()).first()
     return jsonify(x=position_obj.x, y=position_obj.y)

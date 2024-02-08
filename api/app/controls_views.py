@@ -24,11 +24,18 @@ STATE = 0
 
 @app.route('/get_action/', methods=['GET'])
 def get_action():
+    """ Returns current state.
+        Output keys: state.
+    """
     return jsonify(state=STATE), 200
 
 
 @app.route('/update_state/<int:value>/', methods=['UPDATE'])
 def update_state(value: int):
+    """ UPDATE method.
+        Updates current STATE value.
+        Input: /value/.
+    """
     # STATE = State(value)
     global STATE
     STATE = value
@@ -37,6 +44,8 @@ def update_state(value: int):
 
 @app.route('/get_action_sim/', methods=['GET'])
 def get_action_sim():
+    """ Simulates motion of vehicle according to current state.
+    """
     # TODO: to improve
     # for simulation purposes
     global STATE
@@ -44,8 +53,8 @@ def get_action_sim():
     Y = 0
     Z = 9.81
     acc = Acceleration.query.order_by(Acceleration.id.desc()).first()
-    value = 0.01
-    with app.app_context():
+    value = 0.01  # assumes constant acceleration equal to 0.01
+    with app.app_context():  # changing sign of acc depending on current direction (STATE)
         if STATE == 1:
             Y = value
         elif STATE == 2:
@@ -73,7 +82,7 @@ def get_action_sim():
                        'y_axis': acc.y_axis + Y,
                        'z_axis': 9.81}
             response = requests.post('http://127.0.0.1:5000/add_acc/', params=payload)
-        else:
+        else:  # assumes vehicle immediately stops when STATE is 0, so velocity is set to 0
             payload = {'x_axis': 0,
                        'y_axis': 0,
                        'z_axis': 0}

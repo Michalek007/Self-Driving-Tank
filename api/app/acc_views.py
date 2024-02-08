@@ -12,6 +12,10 @@ TIME = 0
 @app.route('/acc/<int:acc_id>/', methods=['GET'])
 @app.route('/acc/', methods=['GET'])
 def acc(acc_id: int = None):
+    """ Returns acc with given id or if not specified list of all acc objects from database.
+        Input args: /id/.
+        Output keys: acc {x_axis, y_axis, z_axis}.
+    """
     if acc_id is None:
         acc_list = Acceleration.query.all()
         return jsonify(acc=acceleration_schema_many.dump(acc_list))
@@ -24,6 +28,10 @@ def acc(acc_id: int = None):
 
 @app.route('/add_acc/', methods=['POST'])
 def add_acc():
+    """ POST method.
+        Adds acc to database. Calculates velocity and position depending on current acc data and last saved data in database.
+        Input args: x_axis, y_axis, z_axis.
+    """
     global VELOCITY, TIME
     TIME = datetime.now()
     acc_x = float(request.args.get('x_axis'))/100
@@ -79,6 +87,10 @@ def add_acc():
 
 @app.route('/delete_acc/<int:acc_id>/', methods=['DELETE'])
 def delete_acc(acc_id: int = None):
+    """ DELETE method.
+        Delete acc with given id.
+        Input args: /id/.
+    """
     if acc_id is None:
         return jsonify(message='There is no acc with that id'), 404
     acc_obj = Acceleration.query.filter_by(id=acc_id).first()
@@ -92,6 +104,10 @@ def delete_acc(acc_id: int = None):
 
 @app.route('/get_acc/', methods=['GET'])
 def get_acc():
+    """ Returns current net acceleration (last saved in database)
+        calculated according to equation: a = (ax^2 + ay^2) ^ 0.5.
+        Output keys: value, time.
+    """
     acc_obj = Acceleration.query.order_by(Acceleration.id.desc()).first()
     calculated_acc = (acc_obj.x_axis ** 2 + acc_obj.y_axis ** 2) ** 0.5
     return jsonify(value=calculated_acc, time=acc_obj.date)

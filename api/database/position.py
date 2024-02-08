@@ -5,6 +5,9 @@ from database import db
 
 
 class Position(db.Model):
+    """ Table for position data.
+        Fields -> 'id', 'date', 'x', 'y', 'z'
+    """
     __tablename__ = 'position'
     id = Column(Integer, primary_key=True)
     date = Column(String)

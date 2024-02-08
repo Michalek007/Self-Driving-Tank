@@ -5,6 +5,9 @@ from database import db
 
 
 class Acceleration(db.Model):
+    """ Table for acceleration data.
+        Fields -> 'id', 'date', 'x_axis', 'y_axis', 'z_axis'
+    """
     __tablename__ = 'acceleration'
     id = Column(Integer, primary_key=True)
     date = Column(String)
