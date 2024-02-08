@@ -17,7 +17,7 @@ const char* ssid     = "DESKTOP-O2OLJ1H 8056";         // The SSID (name) of the
 const char* password = "L5w7393^";     // The password of the Wi-Fi network
 WiFiClient client;
 HTTPClient http;
-String servername = "http://192.168.97.253:5000";
+String servername = "http://192.168.46.80:5000";
 String urlGetAction = servername + "/get_action/";
 String urlAddAcc = servername + "/add_acc/";
 
@@ -114,8 +114,12 @@ void loop() {
   http.POST("");
 
   // getting values from hcsr04
-  // float dist = check_distance();
-  // Serial.println(dist);  
+  float dist = check_distance();
+  if (dist < 20){ // moving backward if object is near hcsr04
+    SPI.transfer('2');
+    delay(100);
+  }
+  Serial.println(dist);  
 }
 
 // put function definitions here:
