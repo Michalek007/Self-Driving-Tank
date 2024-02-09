@@ -5,6 +5,7 @@
 #include <Wire.h>
 #include <SPI.h>
 
+#include "pass.h"
 #include "hcsr04.h"
 
 #define addr 0x1C
@@ -13,8 +14,8 @@
 void connectToWiFi(const char*, const char*);
 void mma8452Init();
 
-const char* ssid     = "DESKTOP-O2OLJ1H 8056";         // The SSID (name) of the Wi-Fi network you want to connect to
-const char* password = "L5w7393^";     // The password of the Wi-Fi network
+const char *ssid = SSID;             // The SSID (name) of the Wi-Fi network you want to connect to
+const char* password = PASSWORD;     // The password of the Wi-Fi network
 WiFiClient client;
 HTTPClient http;
 String servername = "http://192.168.46.80:5000";
