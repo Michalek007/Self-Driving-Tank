@@ -1,3 +1,4 @@
+""" Runs Flask app on development server. """
 from app import app
 from app.periodic_tasks import *
 

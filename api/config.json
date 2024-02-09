@@ -1,19 +1,13 @@
 {
   "metadata" : {
-        "VERSION": "0.9.5",
-        "PROJECT_NAME": "REST-API-template",
-        "BUILD": "0",
+        "VERSION": "1.1.0.0",
+        "PROJECT_NAME": "Self-driving-tank API",
+        "CHANGELOGS": "1.1 release",
         "AUTHOR": "Michał Nizioł"
   },
   "options" : {
         "RUN_FILE": "\\run.bat",
         "VENV_SETUP_FILE": "\\venvSetup.bat",
         "PYTHON_REQUIRES": ">=3.8"
-  },
-  "classifiers" : [
-        "Programming Language :: Python :: 3.8",
-        "Operating System :: Microsoft :: Windows",
-        "Framework :: Flask",
-        "Natural Language :: English"
-  ]
+  }
 }

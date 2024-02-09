@@ -5,7 +5,6 @@ from app import app, bcrypt
 from database import *
 
 
-VELOCITY = 0
 TIME = 0
 
 
@@ -32,7 +31,7 @@ def add_acc():
         Adds acc to database. Calculates velocity and position depending on current acc data and last saved data in database.
         Input args: x_axis, y_axis, z_axis.
     """
-    global VELOCITY, TIME
+    global TIME
     TIME = datetime.now()
     acc_x = float(request.args.get('x_axis'))/100
     acc_y = float(request.args.get('y_axis'))/100

@@ -1,3 +1,4 @@
+""" Flask application. """
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
