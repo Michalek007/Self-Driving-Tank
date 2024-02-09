@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{url_for('static', filename='controls.js')}}"></script>
+    <style>
+        .graph-container {
+            width: 33.33%;
+            float: left;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="white_text">
+        <div class="center"> Controls </div>
+    </div>
+
+    <div class="button-container">
+    <button class="button" id="softTurnForwardLeftBtn">Forward Left</button>
+    <button class="button" id="forwardBtn">Forward</button>
+    <button class="button" id="softTurnForwardRightBtn">Forward Right</button>
+    </div>
+
+    <div class="button-container">
+    <button class="button" id="leftBtn">Left</button>
+    <button class="button" id="stopBtn">Stop</button>
+    <button class="button" id="rightBtn">Right</button>
+    </div>
+
+    <div class="button-container">
+    <button class="button" id="softTurnBackwardLeftBtn">Backward Left</button>
+    <button class="button" id="backwardBtn">Backward</button>
+    <button class="button" id="softTurnBackwardRightBtn">Backward Right</button>
+    </div>
+
+    <div class="white_text">
+        <div class="center" id="velocity"> 0 </div>
+    </div>
+
+    <div class="graph-container">
+        <div id="acc"></div>
+    </div>
+        <div class="graph-container">
+        <div id="vel"></div>
+    </div>
+    <div class="graph-container">
+        <div id="pos"></div>
+    </div>
+    <script>
+        init_controls();
+        // Fetch data initially and then update every 1 seconds
+        fetchAcc('acc');
+        fetchPosition('pos');
+        fetchVelocity('vel');
+
+        setInterval(function() {
+            fetchAcc('acc');
+        }, 500);
+        setInterval(function() {
+            fetchPosition('pos');
+        }, 500);
+        setInterval(function() {
+            fetchVelocity('vel');
+        }, 500);
+
+        // simulation purposes
+        {#setInterval(function() {#}
+        {#    fetchData(); }, 100);#}
+    </script>
+{% endblock %}

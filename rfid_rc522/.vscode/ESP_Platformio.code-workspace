@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "../../../../ESP_Platformio"
+		},
+		{
+			"name": "RFID_ESP",
+			"path": "../../RFID_ESP"
+		},
+		{
+			"name": "Blink",
+			"path": "../../Blink"
+		},
+		{
+			"name": "Sweep_servo",
+			"path": "../../Sweep_servo"
+		},
+		{
+			"name": "RF__ID",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"bluetoothserial.h": "c"
+		}
+	}
+}

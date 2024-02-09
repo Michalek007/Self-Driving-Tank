@@ -1,13 +1,12 @@
-import flask_jwt_extended
 from flask import render_template, url_for, request, redirect, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_jwt_extended import set_access_cookies, unset_jwt_cookies
-from datetime import datetime
+
 from app import app, bcrypt
-from database import *
+from database import db, User, user_schema, users_schema
 
 
-@app.route("/", methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def base():
     return render_template('base.html')
 
@@ -55,14 +54,14 @@ def login():
         return jsonify(message='There is no account with that username'), 401
 
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout/', methods=['POST'])
 def logout():
     resp = jsonify({'logout': True})
     unset_jwt_cookies(resp)
     return resp, 200
 
 
-@app.route("/protected", methods=["GET"])
+@app.route('/protected/', methods=["GET"])
 @jwt_required()
 def protected():
     # Access the identity of the current user with get_jwt_identity
@@ -70,13 +69,13 @@ def protected():
     return jsonify(logged_in=current_user), 200
 
 
-@app.route('/users/<int:id>/', methods=['GET'])
+@app.route('/users/<int:user_id>/', methods=['GET'])
 @app.route('/users/', methods=['GET'])
-def users(id: int = None):
-    if id is None:
+def users(user_id: int = None):
+    if user_id is None:
         users_list = User.query.all()
         return jsonify(users=users_schema.dump(users_list))
-    user = User.query.filter_by(id=id).first()
+    user = User.query.filter_by(id=user_id).first()
     if user:
         return jsonify(user=user_schema.dump(user))
     else:

@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Self-Driving-Tank</title>
+{% extends "base.html" %}
+
+{% block head %}
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
       <style>
         .graph-row {
@@ -17,16 +16,10 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{url_for('static', filename='graphs.js')}}"></script>
-</head>
-<body>
+{% endblock %}
 
-    <div class="topnav">
-        <a href="{{url_for('tank_control')}}"> TANK CONTROL </a>
-        <a href="{{url_for('graphs')}}"> GRAPHS </a>
-        <a href="{{url_for('data')}}"> DATA </a>
-    </div>
-
-   <div class="graph-row">
+{% block body %}
+    <div class="graph-row">
         <div class="graph-container">
             <div id="x_acc"></div>
         </div>
@@ -53,5 +46,4 @@
         fetchPos();
         fetchAcc();
     </script>
-</body>
-</html>
+{% endblock %}

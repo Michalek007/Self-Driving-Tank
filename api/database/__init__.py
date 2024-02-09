@@ -1,4 +1,6 @@
+""" Contains SQAlchemy database object, models & schemas. """
 from flask_sqlalchemy import SQLAlchemy
+
 from app import app
 
 db = SQLAlchemy()

@@ -1,9 +1,13 @@
 from sqlalchemy import Column, Integer, String, Float
+
 from app import ma
 from database import db
 
 
 class Velocity(db.Model):
+    """ Table for velocity data.
+        Fields -> 'id', 'date', 'x_axis', 'y_axis', 'z_axis'
+    """
     __tablename__ = 'velocity'
     id = Column(Integer, primary_key=True)
     date = Column(String)
