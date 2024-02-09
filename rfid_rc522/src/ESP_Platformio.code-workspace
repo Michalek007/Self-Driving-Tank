@@ -1,0 +1,12 @@
+{
+    "folders": [
+        {
+            "name": "rfid",
+            "path": "../../Sweep_servo/lib/rfid"
+        },
+        {
+            "name": "RF__ID",
+            "path": ".."
+        }
+    ]
+}
